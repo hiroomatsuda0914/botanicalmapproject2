@@ -1,0 +1,25 @@
+<style>
+  .map {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .date {
+    width: fit-content;
+    margin: auto;
+  }
+</style>
+
+<br>
+<form class = "date" method="GET" action="{% url 'botanicalmaps:index' %}">
+  <label for="start_date">Start Date:</label>
+  <input type="date" name="start_date" id="start_date">
+  <label for="end_date">End Date:</label>
+  <input type="date" name="end_date" id="end_date">
+  <br>
+  <br>
+  <div align="center">
+  <button type="submit" class="btn btn-outline-info">撮影日（期間）で絞り込み</button>
+  </div>
+</form>
+<br>
+<div class = "map" id="map" style="width: 80%; height: auto;">{{ map|safe }}</div>

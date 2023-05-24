@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}
+  Photo Detail
+{% endblock %}
+{% block contents %}
+<style>
+  .card-container {
+    display : flex;
+    max-width: 1000px;
+    height: 400px;
+    margin: 20px auto;
+  }
+  .card-photo {
+    width: auto;
+    height: auto;
+  }
+  .card-photo img {
+    width: 560px;
+    height: 560px;
+    object-fit: cover;
+  }
+  .card-text {
+    width: 100%;
+    margin: 20px;
+  }
+  .link {
+    text-decoration: none;
+  }
+</style>
+
+<html>
+<head>
+    <title>写真の詳細情報</title>
+</head>
+
+<body>
+  <div class = "card-container">
+  <div class = "card-photo">
+    <img src = "{{ photo.photo.url}}">
+  </div>
+  <div class = "card-text">
+    <table class = "table">
+      <tr>
+        <td>撮影日</td>
+        <td>{{ photo.shooting_date }}</td>
+      </tr>
+      <tr>
+        <td>コメント</td>
+        <td>{{ photo.comment }}</td>
+      </tr>
+      <tr>
+        <td>エリア名</td>
+        <td><a class ="link" href ='{% url 'botanicalmaps:area' photo.area_id %}'>{{ photo.area }}</a></td>
+      </tr>
+      <tr>
+        <td>山域名</td>
+        <td><a class ="link" href ='{% url 'botanicalmaps:mountain_name' photo.mountain_name_id %}'>{{ photo.mountain_name }}</a></td>
+      </tr>
+      <tr>
+        <td>投稿カテゴリ</td>
+        <td><a class ="link" href ='{% url 'botanicalmaps:photo_cat' photo.category_id %}'>{{ photo.category }}</a></td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>
+{% endblock %}

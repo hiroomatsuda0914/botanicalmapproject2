@@ -1,0 +1,14 @@
+
+{% if user.is_authenticated %}
+<br>
+<div style="text-align: center">
+    <h4>{{request.user.username}}さんのマイページ</h4>
+    {% if items.count == 0 %}
+     <p>{{request.user.username}}さんの投稿はありません</p>
+    {% else %}
+      <p>投稿<strong>{{items.count}}</strong>件</p>
+    {% endif %}
+    <button class = "btn btn-info"><a href="{% url 'botanicalmaps:post_photo' %}" class = "link-light">投稿する</a></button>
+</div>
+{% endif %}
+
