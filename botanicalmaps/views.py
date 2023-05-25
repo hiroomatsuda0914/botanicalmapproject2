@@ -155,10 +155,10 @@ def image_map(start_date, end_date, *args, **kwargs):
         zoom_start = 14,)
     # レコードから一件取り出して、foliumの地図に表示する
     for image in images:
-        img_url = "http://3.27.9.171:8000/"+image.photo.url
+        # img_url = "http://3.27.9.171:8000/"+image.photo.url
         folium.Marker(
             location = [image.photo_latitude, image.photo_longitude],
-            icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
+            # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
             popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
         ).add_to(m)
     # foliumの地図をhtmlに変換
@@ -190,10 +190,10 @@ def my_image_map(request, start_date, end_date, *args, **kwargs):
         zoom_start = 14,)
     # レコードから一件取り出して、foliumの地図に表示する
     for image in images:
-        img_url = "http://3.27.9.171:8000/"+image.photo.url
+        # img_url = "http://3.27.9.171:8000/"+image.photo.url
         folium.Marker(
             location = [image.photo_latitude, image.photo_longitude],
-            icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
+            # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
             popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
         ).add_to(mymap)
     # foliumの地図をhtmlに変換
