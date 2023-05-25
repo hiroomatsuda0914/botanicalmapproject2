@@ -199,3 +199,6 @@ def my_image_map(request, start_date, end_date, *args, **kwargs):
     # foliumの地図をhtmlに変換
     mymap = mymap._repr_html_()
     return mymap
+
+class PostSuccessView(TemplateView):
+    template_name = 'post_success.html'

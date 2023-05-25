@@ -15,4 +15,5 @@ urlpatterns = [
     path('area/<int:area_id>', views.AreaView, name = 'area'),
     path('mountain_name/<int:mountain_name_id>', views.MountainView, name = 'mountain_name'),
     path('user/<int:user_id>', views.UserView, name = 'user'),
+    path('post_done/', views.PostSuccessView.as_view(), name = 'post_done'),
 ]
