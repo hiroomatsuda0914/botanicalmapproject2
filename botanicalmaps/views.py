@@ -142,28 +142,35 @@ def get_longitude(image_file):
 # def image_map(request):
 # def image_map(req):
 def image_map(start_date, end_date, *args, **kwargs):
-    images = Post.objects.all()
-    initial_images = Post.objects.all().order_by('-posted_at')
+    try:
+        images = Post.objects.all()
+        initial_images = Post.objects.all().order_by('-posted_at')
     # モデルから取ってきたレコードを撮影日でフィルタ
-    if start_date and end_date:
-        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-        end_date = datetime.strptime(end_date, '%Y-%m-%d').date() + timedelta(days=1)
-        images = images.filter(shooting_date__range=(start_date, end_date))
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date() + timedelta(days=1)
+            images = images.filter(shooting_date__range=(start_date, end_date))
     # foliumの地図を設定
-    m = folium.Map(
-        location =[initial_images[0].photo_latitude, initial_images[0].photo_longitude],
-        zoom_start = 14,)
+        m = folium.Map(
+            location =[initial_images[0].photo_latitude, initial_images[0].photo_longitude],
+            zoom_start = 14,)
     # レコードから一件取り出して、foliumの地図に表示する
-    for image in images:
+        for image in images:
         # img_url = "http://3.27.9.171:8000/"+image.photo.url
-        folium.Marker(
-            location = [image.photo_latitude, image.photo_longitude],
-            # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
-            popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
-        ).add_to(m)
+            try:
+                folium.Marker(
+                    location = [image.photo_latitude, image.photo_longitude],
+                    # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
+                    popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
+            ).add_to(m)
+            except Exception as e:
+                print("Error:", e)
     # foliumの地図をhtmlに変換
-    m = m._repr_html_()
-    return m
+        m = m._repr_html_()
+        return m
+    except Exception as e:
+        print("Error:", e)
+        return None
 
 
 # マイページのview。自分の写真の地図表示とタイル表示をする。
@@ -177,28 +184,35 @@ def MypageView(request):
     return render(request, 'mypage.html', context)
 
 def my_image_map(request, start_date, end_date, *args, **kwargs):
-    images = Post.objects.filter(user=request.user)
-    initial_images = Post.objects.filter(user=request.user).order_by('-posted_at')
-    # モデルから取ってきたレコードを撮影日でフィルタ
-    if start_date and end_date:
-        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-        end_date = datetime.strptime(end_date, '%Y-%m-%d').date() + timedelta(days=1)
-        images = images.filter(shooting_date__range=(start_date, end_date))
-    # foliumの地図を設定
-    mymap = folium.Map(
-        location =[initial_images[0].photo_latitude, initial_images[0].photo_longitude],
-        zoom_start = 14,)
-    # レコードから一件取り出して、foliumの地図に表示する
-    for image in images:
-        # img_url = "http://3.27.9.171:8000/"+image.photo.url
-        folium.Marker(
-            location = [image.photo_latitude, image.photo_longitude],
-            # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
-            popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
-        ).add_to(mymap)
-    # foliumの地図をhtmlに変換
-    mymap = mymap._repr_html_()
-    return mymap
+    try:
+        images = Post.objects.filter(user=request.user)
+        initial_images = Post.objects.filter(user=request.user).order_by('-posted_at')
+        # モデルから取ってきたレコードを撮影日でフィルタ
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date() + timedelta(days=1)
+            images = images.filter(shooting_date__range=(start_date, end_date))
+        # foliumの地図を設定
+        mymap = folium.Map(
+            location =[initial_images[0].photo_latitude, initial_images[0].photo_longitude],
+            zoom_start = 14,)
+        # レコードから一件取り出して、foliumの地図に表示する
+        for image in images:
+            try:
+                # img_url = "http://3.27.9.171:8000/"+image.photo.url
+                folium.Marker(
+                    location = [image.photo_latitude, image.photo_longitude],
+                    # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
+                    popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
+                ).add_to(mymap)
+            except Exception as e:
+                print("Error:", e)
+        # foliumの地図をhtmlに変換
+        mymap = mymap._repr_html_()
+        return mymap
+    except Exception as e:
+        print("Error:", e)
+        return None
 
 class PostSuccessView(TemplateView):
     template_name = 'post_success.html'
