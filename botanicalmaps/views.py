@@ -3,6 +3,7 @@ from django.views.generic import CreateView, TemplateView, ListView, DetailView
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
 from geopy.geocoders import Nominatim
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
@@ -141,7 +142,7 @@ def get_longitude(image_file):
 # Postに保存されている画像と緯度経度から、地図上に表示をする関数
 # def image_map(request):
 # def image_map(req):
-def image_map(start_date, end_date, *args, **kwargs):
+def image_map(request, start_date, end_date, *args, **kwargs):
     try:
         images = Post.objects.all()
         initial_images = Post.objects.all().order_by('-posted_at')
@@ -157,7 +158,9 @@ def image_map(start_date, end_date, *args, **kwargs):
     # レコードから一件取り出して、foliumの地図に表示する
         for image in images:
             try:
-                img_url = "http://3.27.9.171:8000"+image.photo.url
+                domain = get_current_site(request).domain
+                img_url = f"http://{domain}{image.photo.url}"
+                # img_url = "http://3.27.9.171:8000"+image.photo.url
                 folium.Marker(
                     location = [image.photo_latitude, image.photo_longitude],
                     icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
@@ -199,7 +202,9 @@ def my_image_map(request, start_date, end_date, *args, **kwargs):
         # レコードから一件取り出して、foliumの地図に表示する
         for image in images:
             try:
-                img_url = "http://3.27.9.171:8000"+image.photo.url
+                domain = get_current_site(request).domain
+                img_url = f"http://{domain}{image.photo.url}"
+                # img_url = "http://3.27.9.171:8000"+image.photo.url
                 folium.Marker(
                     location = [image.photo_latitude, image.photo_longitude],
                     icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
