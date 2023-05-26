@@ -157,7 +157,7 @@ def image_map(start_date, end_date, *args, **kwargs):
     # レコードから一件取り出して、foliumの地図に表示する
         for image in images:
             try:
-                img_url = "http://3.27.9.171:8000/"+image.photo.url
+                img_url = "http://3.27.9.171:8000"+image.photo.url
                 folium.Marker(
                     location = [image.photo_latitude, image.photo_longitude],
                     icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
@@ -199,7 +199,7 @@ def my_image_map(request, start_date, end_date, *args, **kwargs):
         # レコードから一件取り出して、foliumの地図に表示する
         for image in images:
             try:
-                img_url = "http://3.27.9.171:8000/"+image.photo.url
+                img_url = "http://3.27.9.171:8000"+image.photo.url
                 folium.Marker(
                     location = [image.photo_latitude, image.photo_longitude],
                     icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
