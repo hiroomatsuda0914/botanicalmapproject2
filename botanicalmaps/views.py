@@ -7,7 +7,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from geopy.geocoders import Nominatim
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import piexif
 import exifread
 import folium
@@ -142,7 +142,7 @@ def get_longitude(image_file):
 # Postに保存されている画像と緯度経度から、地図上に表示をする関数
 # def image_map(request):
 # def image_map(req):
-def image_map(request, start_date=None, end_date=None, *args, **kwargs):
+def image_map(request, start_date=date(1990, 1, 1), end_date=date.today(), *args, **kwargs):
     try:
         images = Post.objects.all()
         initial_images = Post.objects.all().order_by('-posted_at')
