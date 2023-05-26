@@ -12,6 +12,7 @@ import piexif
 import exifread
 import folium
 from folium import plugins
+from folium.features import DivIcon
 import branca
 from .forms import PostForm
 from .models import Post, PostCategory, Area, MountainArea
@@ -160,10 +161,15 @@ def image_map(request, start_date=date(1990, 1, 1), end_date=date.today(), *args
             try:
                 domain = get_current_site(request).domain
                 img_url = f"http://{domain}{image.photo.url}"
+                icon_html = """
+                <div style="border: 2px solid white; border-radius: 10%; width: 100px; height: 80px; background-image: url({img_url}); background-size: cover; box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.45);">
+                </div>
+                """
                 # img_url = "http://3.27.9.171:8000"+image.photo.url
                 folium.Marker(
                     location = [image.photo_latitude, image.photo_longitude],
-                    icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
+                    icon = DivIcon(html=icon_html.format(img_url=img_url)),
+                    # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
                     popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
             ).add_to(m)
             except Exception as e:
@@ -206,10 +212,15 @@ def my_image_map(request, start_date, end_date, *args, **kwargs):
             try:
                 domain = get_current_site(request).domain
                 img_url = f"http://{domain}{image.photo.url}"
+                icon_html = """
+                <div style="border: 2px solid white; border-radius: 10%; width: 100px; height: 80px; background-image: url({img_url}); background-size: cover; box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.45);">
+                </div>
+                """
                 # img_url = "http://3.27.9.171:8000"+image.photo.url
                 folium.Marker(
                     location = [image.photo_latitude, image.photo_longitude],
-                    icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
+                    icon = DivIcon(html=icon_html.format(img_url=img_url)),
+                    # icon = folium.features.CustomIcon(icon_image=img_url, icon_size = (80,80)),
                     popup = folium.Popup(f"<img src='{image.photo.url}' width='400px'> 撮影日： {image.shooting_date} <br> 山域名： {image.mountain_name} <br> コメント： {image.comment}")
                 ).add_to(mymap)
             except Exception as e:
