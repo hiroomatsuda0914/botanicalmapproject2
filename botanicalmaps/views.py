@@ -22,7 +22,7 @@ from django.conf import settings
 def IndexView(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-    m = image_map(start_date, end_date)
+    m = image_map(request, start_date, end_date)
     queryset = Post.objects.order_by('-posted_at')
     context = {'map': m, 'items':queryset}
     return render(request, 'index.html', context)
@@ -185,6 +185,8 @@ def MypageView(request):
     queryset = Post.objects.filter(user=request.user).order_by('-posted_at')
     context = {'map': mymap, 'items':queryset}
     return render(request, 'mypage.html', context)
+
+
 
 def my_image_map(request, start_date, end_date, *args, **kwargs):
     try:
