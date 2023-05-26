@@ -142,7 +142,7 @@ def get_longitude(image_file):
 # Postに保存されている画像と緯度経度から、地図上に表示をする関数
 # def image_map(request):
 # def image_map(req):
-def image_map(request, start_date, end_date, *args, **kwargs):
+def image_map(request, start_date=None, end_date=None, *args, **kwargs):
     try:
         images = Post.objects.all()
         initial_images = Post.objects.all().order_by('-posted_at')
