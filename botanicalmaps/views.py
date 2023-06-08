@@ -198,6 +198,8 @@ def my_image_map(request, start_date, end_date, *args, **kwargs):
     try:
         images = Post.objects.filter(user=request.user)
         initial_images = Post.objects.filter(user=request.user).order_by('-posted_at')
+        if not initial_images:
+            return None
         # モデルから取ってきたレコードを撮影日でフィルタ
         if start_date and end_date:
             start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
